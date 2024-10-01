@@ -1,0 +1,207 @@
+#map {
+    width: 100%;
+    height: 100vh; 
+}
+
+#search-container {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background: white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+}
+
+#search-input {
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+#search-button {
+    padding: 8px 12px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#header-container {
+    display: flex;             
+    justify-content: space-between; 
+    align-items: center; 
+    margin-bottom: 2px;   
+    position: relative;   
+}
+
+#header-container h1 {
+    color: #28a745;
+    margin: 0;  
+    padding: 0;     
+    flex-grow: 1;      
+}
+
+#toggle-button {
+    background-color: black; 
+    border: 1px solid #000000;
+    border-radius: 3px;
+    color: white; 
+    font-weight: bold; 
+    margin-left: 10px; 
+    position: absolute; 
+    top: 0;  
+    right: 0; 
+}
+
+#user-controls {
+    display: none; /* Initially hidden */
+}
+
+#login-section {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+#login-btn {
+    display: inline-block; /* Use inline-block for centering */
+    margin: 0 auto;        /* Center the button horizontally */
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-between;  /* Spreads the buttons apart */
+    align-items: center;
+}
+
+#current-user{
+    margin-top: 5px;
+}
+
+/* Modal (popup) styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 30%; /* Could be more or less, depending on screen size */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#login-form {
+    display: flex;
+    flex-direction: column;
+}
+
+#login-form input {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+#controls-container {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    font-size: 16px;
+    font-family: 'Oswald', sans-serif;
+    
+    word-wrap: break-word; 
+    overflow-wrap: break-word;
+    overflow-y: auto;
+    max-height: 80vh;
+    max-width: 35vh;
+    text-align: left; 
+}
+
+#route-message {
+    width: 100%;  /* Full width of the container */
+    max-width: 100%;  /* Prevent it from growing beyond the container */
+    min-height: 30px;  /* Minimum height for the textarea */
+    resize: none;  /* Disable manual resizing */
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;  /* Include padding and border in the element's total width and height */
+}
+
+#text-container {
+    margin: 0;
+    padding-bottom: 20px;
+}
+
+#controls-container h4 {
+    margin: 0; 
+    padding-bottom: 5px;
+    font-size: 20px;
+}
+
+.desc {
+    margin: 0; 
+    padding-bottom: 5px;
+}
+
+.sub{
+    margin: 0; 
+    padding-top: 3px;
+    font-size: x-small;
+}
+
+#route-color {
+    margin-right: 10px;
+}
+
+#confirm-route, #logout-btn, #login-btn {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 10px 20px;
+}
+
+#confirm-route:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.leaflet-routing-container {
+    display: none !important;
+}
