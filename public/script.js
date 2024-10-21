@@ -1,59 +1,62 @@
-// Fallback map center if geolocation fails or is not supported
-let mapboxApiKey = ''
+let mapboxApiKey = '';
 
+// Set default map options with a fallback center point (Example: Germany)
 let defaultMapOptions = {
-    center: [40.2137, -74.3001],  // Example fallback center point (Germany)
+    center: [40.2137, -74.3001],  // Example fallback center point (can be customized)
     zoom: 15
 };
 
 let loggedInUser = '';
 let currentMode = 'view';  // Default mode
-
-// Initialize the map without centering yet
 let map = L.map('map');
 
 // Load and add the tile layer (OpenStreetMap) to the map
 let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 map.addLayer(layer);
 
-function fetchMapboxApiKey() {
-    return fetch('/api/mapbox-key')
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
-        .then(data => {
-            mapboxApiKey = data.apiKey; // Store the API key in a variable
-            console.log('Mapbox API key fetched successfully:', mapboxApiKey);
-        })
-        .catch(error => {
-            console.error('Error fetching Mapbox API key:', error);
-            throw error; // Rethrow to handle it later if needed
-        });
+// Define the API base URL depending on the environment (local or production)
+const API_URL = window.location.hostname === 'localhost'
+    ? 'http://localhost:5000/api'   // For local development
+    : 'https://your-deployed-app-url.com/api';  // Replace with your actual production URL
+
+// Function to fetch the Mapbox API key from the server
+async function fetchMapboxApiKey() {
+    try {
+        const response = await fetch(`${API_URL}/mapbox-key`);
+        
+        // Check if the response is not ok
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        mapboxApiKey = data.apiKey;
+
+    } catch (error) {
+        console.error('Error fetching Mapbox API key:', error.message || error);
+        alert('Failed to fetch the Mapbox API key. Please try again later.');
+        throw error;  // Re-throw to allow further handling if needed
+    }
 }
 
+
+// Fetch the Mapbox API key on page load
 fetchMapboxApiKey()
     .then(() => {
-        // Now that the API key is fetched, you can safely call addTemporaryRoute
-        // Example: addTemporaryRoute([startLat, startLng], [endLat, endLng]);
     })
     .catch(error => {
         console.error('Failed to fetch the Mapbox API key:', error);
-        // Handle error appropriately (e.g., disable route drawing functionality)
     });
+
 
 // Try to get the user's location
 if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         function(position) {
-            // On success, use the user's location as the map center
             const userCoords = [position.coords.latitude, position.coords.longitude];
             map.setView(userCoords, 15); 
         },
         function() {
-            // On failure (e.g., user denies location access), use the default center
             map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
         }
     );
@@ -62,9 +65,7 @@ if (navigator.geolocation) {
     map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
 }
 
-// Existing map initialization and other code
-
-// Function to search location using OpenStreetMap's Nominatim API
+// Function to search location using OpenStreetMap's API
 function searchLocation(query) {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}`;
 
@@ -72,10 +73,8 @@ function searchLocation(query) {
         .then(response => response.json())
         .then(data => {
             if (data.length > 0) {
-                // Get the first result's coordinates (latitude and longitude)
                 const { lat, lon } = data[0];
-                // Set the map view to the searched location
-                map.setView([lat, lon], 15); // Adjust zoom level if needed
+                map.setView([lat, lon], 15);
             } else {
                 alert("Location not found.");
             }
@@ -110,19 +109,14 @@ document.getElementById('search-input').addEventListener('keypress', function(e)
 
 // Routing layer where the user-created roads will appear temporarily
 let temporaryRoute = null;
-let routeData = null;  // Store route data after it's calculated
+let routeData = null; 
 
-// Layer group to store confirmed routes permanently
 let permanentRoutes = L.layerGroup().addTo(map);
-
-// Button to confirm the route
 let confirmRouteButton = document.getElementById('confirm-route');
 
-// Dropdowns for route color and border color selection
 let routeColorSelector = document.getElementById('route-color');
 let routeBorderColorSelector = document.getElementById('route-border-color');
 
-// Text area for the optional route message
 let routeMessageInput = document.getElementById('route-message');
 
 // Function to add a route that snaps to the roads
@@ -142,7 +136,7 @@ function addTemporaryRoute(startPoint, endPoint) {
     temporaryRoute = L.Routing.control({
         plan: customPlan,
         router: L.Routing.mapbox(mapboxApiKey, {
-            profile: 'mapbox/walking'  // Change to 'mapbox/driving', 'mapbox/cycling' for other profiles
+            profile: 'mapbox/walking' 
         }),
         lineOptions: {
             styles: [
@@ -152,14 +146,14 @@ function addTemporaryRoute(startPoint, endPoint) {
         },
         fitSelectedRoutes: true,
         routeWhileDragging: false,
-        itinerary: null,  // Explicitly disable the itinerary (directions box)
-        show: false,  // Another layer to ensure the box is hidden
+        itinerary: null,  
+        show: false,  
     }).addTo(map);
 
     // Add an event listener to enable the confirm button after the route is calculated
     temporaryRoute.on('routesfound', function(e) {
-        routeData = e.routes[0];  // Store the route data once the route is found
-        confirmRouteButton.disabled = false;  // Enable the confirm button once a route is created
+        routeData = e.routes[0];
+        confirmRouteButton.disabled = false;
     });
 }
 
@@ -205,8 +199,8 @@ function updateTemporaryRouteStyle() {
         // Update the line style for the existing temporary route
         temporaryRoute.getPlan().setLineOptions({
             styles: [
-                { color: routeBorderColorSelector.value, weight: 13 },  // Update the border color
-                { color: routeColorSelector.value, weight: 5 }  // Update the main line color
+                { color: routeBorderColorSelector.value, weight: 13 },  
+                { color: routeColorSelector.value, weight: 5 }  
             ]
         });
     }
@@ -218,8 +212,6 @@ function confirmRoute() {
         const timestamp = new Date();
         const routeMessage = routeMessageInput.value || "";  // Use a default message if none is entered
         const coordinates = routeData.coordinates.map(coord => [coord.lat, coord.lng]);
-
-        // Create polyline for visualization, as before...
 
         // Send route data to backend for saving
         const routeDetails = {
@@ -260,8 +252,6 @@ function confirmRoute() {
             username: loggedInUser
         };        
 
-        // Log the timestamp and message associated with the route
-
         // Remove the temporary routing control and reset the button and message input
         map.removeControl(temporaryRoute);
         temporaryRoute = null;
@@ -279,13 +269,11 @@ map.on('click', function(e) {
     if (currentMode === 'draw') {
         waypoints.push([e.latlng.lat, e.latlng.lng]);
 
-        // If two waypoints are clicked, create the temporary route
         if (waypoints.length === 2) {
             addTemporaryRoute(waypoints[0], waypoints[1]);
             waypoints = [];  // Reset waypoints array for the next route
         }
     } else if (currentMode === 'view') {
-        // In view mode, we need to find if a route was clicked
         let clickedRoute = null;
 
         permanentRoutes.eachLayer(function(layer) {
@@ -314,15 +302,11 @@ map.on('click', function(e) {
     }
 });
 
-
-
-
 //Event listener for mode toggle
 const modeToggle = document.getElementById('mode-toggle');
 modeToggle.addEventListener('change', function() {
     currentMode = modeToggle.value;
 });
-
 
 // Event listener for the confirm button
 confirmRouteButton.addEventListener('click', confirmRoute);
@@ -447,15 +431,19 @@ window.onload = function() {
                     username: username,
                     password: password
                 };
-
-    
+        
                 // Send API request to login
                 fetch('http://localhost:5000/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
                 })
-                .then(response => response.json())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok: ' + response.statusText);
+                    }
+                    return response.json();
+                })
                 .then(data => {
                     if (data.error) {
                         alert(data.error);
@@ -468,15 +456,19 @@ window.onload = function() {
                         loginSection.style.display = 'none';
                         logoutButton.style.display = 'block'; 
                         userControls.style.display = 'block';
-
+        
                         document.getElementById('logged-in-user').textContent = loggedInUser;
                     }
                 })
-                .catch(error => console.error('Error during login:', error));
+                .catch(error => {
+                    console.error('Error during login:', error);
+                    alert('An error occurred during login. Please try again.');
+                });
             } else {
                 alert('Please enter both username and password.');
             }
-        } else {
+        }
+         else {
             // Sign-up logic (already implemented)
             if (username && password && email) {
                 const userData = {
@@ -524,7 +516,6 @@ window.onload = function() {
     });
 
 };
-
 
 // Minimize button functionality
 $(document).ready(function() {

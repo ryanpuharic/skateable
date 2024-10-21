@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const bcrypt = require('bcryptjs'); // For password hashing
+const path = require('path'); // Used for resolving paths
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -20,6 +21,14 @@ mongoose.connect(process.env.MONGODB_URI, {
 })
 .then(() => console.log('Connected to MongoDB Atlas'))
 .catch(err => console.error('Error connecting to MongoDB Atlas:', err));
+
+// Serve static files (HTML, CSS, JS) from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+// Serve index.html for the root route (main page)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 // Route schema
 const routeSchema = new mongoose.Schema({
@@ -112,10 +121,10 @@ app.get('/api/routes', async (req, res) => {
   }
 });
 
+// GET route to fetch Mapbox API key
 app.get('/api/mapbox-key', (req, res) => {
   res.json({ apiKey: process.env.MAPBOX_KEY });
 });
-
 
 // Start the server
 app.listen(PORT, () => {
