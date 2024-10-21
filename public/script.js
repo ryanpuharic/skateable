@@ -15,9 +15,7 @@ let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 map.addLayer(layer);
 
 // Define the API base URL depending on the environment (local or production)
-const API_URL = window.location.hostname === 'localhost'
-    ? 'http://localhost:5000/api'   // For local development
-    : 'https://your-deployed-app-url.com/api';  // Replace with your actual production URL
+const API_URL = 'https://skateable.onrender.com'
 
 // Function to fetch the Mapbox API key from the server
 async function fetchMapboxApiKey() {
@@ -223,7 +221,7 @@ function confirmRoute() {
             username: loggedInUser
         };
 
-        fetch('http://localhost:5000/api/routes', {
+        fetch('https://skateable.onrender.com/api/routes', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(routeDetails)
@@ -317,7 +315,7 @@ routeBorderColorSelector.addEventListener('change', updateTemporaryRouteStyle);
 
 window.onload = function() {
     // Fetch existing routes from the backend and add them to the map
-    fetch('http://localhost:5000/api/routes')
+    fetch('https://skateable.onrender.com/api/routes')
         .then(response => response.json())
         .then(routes => {
             routes.forEach(route => {
@@ -433,7 +431,7 @@ window.onload = function() {
                 };
         
                 // Send API request to login
-                fetch('http://localhost:5000/api/login', {
+                fetch('https://skateable.onrender.com/api/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
@@ -477,7 +475,7 @@ window.onload = function() {
                     password: password
                 };
     
-                fetch('http://localhost:5000/api/signup', {
+                fetch('https://skateable.onrender.com/api/signup', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(userData)
