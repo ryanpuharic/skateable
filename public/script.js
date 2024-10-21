@@ -14,13 +14,10 @@ let map = L.map('map');
 let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
 map.addLayer(layer);
 
-// Define the API base URL depending on the environment (local or production)
-const API_URL = 'https://skateable.onrender.com'
-
 // Function to fetch the Mapbox API key from the server
 async function fetchMapboxApiKey() {
     try {
-        const response = await fetch(`${API_URL}/mapbox-key`);
+        const response = await fetch("https://skateable.onrender.com/api/mapbox-key");
         
         // Check if the response is not ok
         if (!response.ok) {
@@ -36,7 +33,6 @@ async function fetchMapboxApiKey() {
         throw error;  // Re-throw to allow further handling if needed
     }
 }
-
 
 // Fetch the Mapbox API key on page load
 fetchMapboxApiKey()
