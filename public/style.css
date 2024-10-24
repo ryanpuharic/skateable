@@ -131,24 +131,33 @@
 }
 
 #controls-container {
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
+    position: fixed; /* Fix it at the bottom */
+    bottom: 0; /* Lock it to the bottom */
+    left: 0; /* Stretch it from left to right */
+    width: 100%; /* Full width on mobile */
     padding: 10px;
     background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    border-top: 1px solid #ccc;
+    border-radius: 5px 5px 0 0;
     z-index: 1000;
     font-size: 16px;
     font-family: 'Oswald', sans-serif;
-    
-    word-wrap: break-word; 
+    word-wrap: break-word;
     overflow-wrap: break-word;
     overflow-y: auto;
-    max-height: 80vh;
-    max-width: 35vh;
-    text-align: left; 
+    max-height: 40vh; /* Ensure it doesn't cover too much screen */
+    text-align: left;
 }
+
+@media (max-width: 768px) {
+    #search-container, #controls-container {
+        font-size: 14px; /* Slightly smaller text for mobile */
+    }
+    #controls-container {
+        max-height: 30vh; /* Less height for mobile screens */
+    }
+}
+
 
 #route-message {
     width: 100%;  /* Full width of the container */
