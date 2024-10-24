@@ -144,18 +144,9 @@
     word-wrap: break-word; 
     overflow-wrap: break-word;
     overflow-y: auto;
-    max-height: 60vh;
+    max-height: 80vh;
     max-width: 35vh;
     text-align: left; 
-}
-
-@media (max-width: 768px) {
-    #search-container, #controls-container {
-        font-size: 14px; /* Slightly smaller text for mobile */
-    }
-    #controls-container {
-        max-height: 30vh; /* Less height for mobile screens */
-    }
 }
 
 #route-message {
