@@ -1,2 +1,2 @@
 Road smoothness and safety interactive map.  
-[skateable.app](skateable.app)
+[skateable.app](https://www.skateable.app/)
