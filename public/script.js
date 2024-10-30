@@ -1,5 +1,13 @@
 let mapboxApiKey = '';
 
+const ENV = 'prod'; // Change to 'production' for the production URL
+
+// Base URLs for each environment
+const BASE_URL = ENV === 'prod'
+    ? 'https://skateable.onrender.com/api'  // Production URL
+    : 'http://localhost:5000/api';          // Development URL 
+
+
 // Set default map options with a fallback center point (Example: Germany)
 let defaultMapOptions = {
     center: [40.2137, -74.3001],  // Example fallback center point (can be customized)
@@ -17,7 +25,7 @@ map.addLayer(layer);
 // Function to fetch the Mapbox API key from the server
 async function fetchMapboxApiKey() {
     try {
-        const response = await fetch("https://skateable.onrender.com/api/mapbox-key");
+        const response = await fetch(`${BASE_URL}/mapbox-key`);
         
         // Check if the response is not ok
         if (!response.ok) {
@@ -217,7 +225,7 @@ function confirmRoute() {
             username: loggedInUser
         };
 
-        fetch('https://skateable.onrender.com/api/routes', {
+        fetch(`${BASE_URL}/routes`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(routeDetails)
@@ -311,7 +319,7 @@ routeBorderColorSelector.addEventListener('change', updateTemporaryRouteStyle);
 
 window.onload = function() {
     // Fetch existing routes from the backend and add them to the map
-    fetch('https://skateable.onrender.com/api/routes')
+    fetch(`${BASE_URL}/routes`)
         .then(response => response.json())
         .then(routes => {
             routes.forEach(route => {
@@ -427,7 +435,7 @@ window.onload = function() {
                 };
         
                 // Send API request to login
-                fetch('https://skateable.onrender.com/api/login', {
+                fetch(`${BASE_URL}/login`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(loginData)
@@ -471,7 +479,7 @@ window.onload = function() {
                     password: password
                 };
     
-                fetch('https://skateable.onrender.com/api/signup', {
+                fetch(`${BASE_URL}/signup`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(userData)
