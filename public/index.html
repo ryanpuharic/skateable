@@ -22,31 +22,43 @@
     <div id="controls-container">
         <div id="header-container">
             <h1>skateable</h1>
-            <button id="toggle-button">-</button>
         </div>
-        <div id="text-container">
-            <h4>road smoothness & safety map</h4><br>
-            <p class = "desc">
-                <span style="font-weight: bold;">DRAW</span>: simply click two points on the map and rate the skateability between them<br>
-                <span style="font-weight: bold;">VIEW</span>: click on existing lines to view information about them<br>
-                <br>
-                <span style="font-weight: bold;">smoothness key (inner line):</span><br>
-                <span style="background-color: yellowgreen;">&#10022; green - smooth, freshly paved&nbsp;</span><br>
-                <span style="background-color: palegoldenrod;">&#10022; yellow - somewhat smooth&nbsp;</span><br>
-                <span style="background-color: lightsalmon;">&#10022; orange - crusty but still skateable&nbsp;</span><br> 
-                <span style="background-color: tomato;">&#10022; red - badly paved, skate at your own risk&nbsp;</span><br>
-                <br>
-                <span style="font-weight: bold;">safety key (outer line):</span><br>
-                <span style="background-color: darkgreen; color: white;">&#10022; green - not too busy / wide shoulder&nbsp;</span><br>
-                <span style="background-color: darkgoldenrod; color: white;">&#10022; yellow - moderate traffic / some shoulder&nbsp;</span><br>
-                <span style="background-color: darkred; color: white;">&#10022; red - busy / minimal shoulder&nbsp;</span><br> 
-            </p>
-        </div>
-
 
         <div id="login-section">
-            <h4>login to edit the map</h4>
+            <button id="login-info">how to</button>
             <button id="login-btn">login</button>
+        </div>
+
+        
+        <div id="text-container-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span class="close" id="close-info-modal">&times;</span>
+                <h1> <span style="color: darkgreen;"> skateable </span></h1>
+                <h4>road smoothness & safety map</h4>
+                <p class = "desc">
+                    &#10022; to edit the map, first log in<br>
+                    &#10022; there are two modes: view and draw. <br><br>
+                    <span style="font-weight: bold;">VIEW</span>: explore the map without editing. double click on existing lines to view information about them<br>
+                    <span style="font-weight: bold;">DRAW</span>: edit the map. simply click two points on the map and rate the skateability between them<br>
+                    <br>
+                    <span style="font-weight: bold;">smoothness key (inner line):</span><br>
+                    <span style="background-color: yellowgreen;">&#10022; green - smooth, freshly paved&nbsp;</span><br>
+                    <span style="background-color: palegoldenrod;">&#10022; yellow - somewhat smooth&nbsp;</span><br>
+                    <span style="background-color: lightsalmon;">&#10022; orange - crusty but still skateable&nbsp;</span><br> 
+                    <span style="background-color: tomato;">&#10022; red - badly paved, skate at your own risk&nbsp;</span><br>
+                    <br>
+                    <span style="font-weight: bold;">safety key (outer line):</span><br>
+                    <span style="background-color: darkgreen; color: white;">&#10022; green - not too busy / wide shoulder&nbsp;</span><br>
+                    <span style="background-color: darkgoldenrod; color: white;">&#10022; yellow - moderate traffic / some shoulder&nbsp;</span><br>
+                    <span style="background-color: darkred; color: white;">&#10022; red - busy / minimal shoulder&nbsp;</span><br>
+                    <br> 
+                    <span style="font-weight: bold;">TIPS</span>:<br>
+                    &#10022; click on corners of a route if having trouble viewing it&nbsp;<br>
+                    &#10022; to update a route, draw a new route over it&nbsp;<br>
+                    &#10022; if you mess up a route, simply click two new points on the map before confirming&nbsp;<br>
+                    &#10022; multi-point routes coming soon! for now make multiple smaller routes if route between points is incorrect&nbsp;<br>
+                </p>
+            </div>
         </div>
         
         <!-- Login Modal -->
@@ -101,6 +113,7 @@
     
             <div id="buttons">
                 <button id="confirm-route" disabled>confirm route</button>
+                <button id="edit-info">how to</button>
                 <button id="logout-btn" style="display: none;">logout</button>
             </div>
 
@@ -114,6 +127,7 @@
             made by <a href="https://github.com/ryanpuharic" target="_blank">ryan puharic</a>
         </p>
     </div>
+
 
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>

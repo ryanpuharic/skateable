@@ -43,10 +43,11 @@
 }
 
 #header-container h1 {
-    color: #28a745;
+    color: darkgreen;
     margin: 0;  
     padding: 0;     
-    flex-grow: 1;      
+    flex-grow: 1;   
+    padding-bottom: 0;   
 }
 
 #toggle-button {
@@ -93,17 +94,22 @@
     z-index: 1; /* Sit on top */
     left: 0;
     top: 0;
-    width: 100%; /* Full width */
-    height: 100%; /* Full height */
+    width: 100%; /* Full viewport width */
+    height: 100%; /* Full viewport height */
     background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    display: flex;
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
 }
 
 .modal-content {
+    position: absolute;
     background-color: #fefefe;
-    margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
     border: 1px solid #888;
-    width: 30%; /* Could be more or less, depending on screen size */
+    max-width: 600px; /* Optional: limit maximum width */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px; /* Optional: rounded corners */
 }
 
 .close {
@@ -166,10 +172,10 @@
     padding-bottom: 20px;
 }
 
-#controls-container h4 {
+#h4 {
     margin: 0; 
-    padding-bottom: 5px;
-    font-size: 20px;
+    padding-top: 0;
+    font-size: 25px;
 }
 
 .desc {
@@ -187,7 +193,7 @@
     margin-right: 10px;
 }
 
-#confirm-route, #logout-btn, #login-btn {
+#confirm-route, #logout-btn, #login-btn, #login-info, #edit-info {
     background-color: #28a745;
     color: white;
     border: none;

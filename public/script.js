@@ -1,6 +1,6 @@
 let mapboxApiKey = '';
 
-const ENV = 'prod'; // Change to 'production' for the production URL
+const ENV = 'dev'; // Change to 'production' for the production URL
 
 // Base URLs for each environment
 const BASE_URL = ENV === 'prod'
@@ -370,6 +370,32 @@ window.onload = function() {
     userControls.style.display = 'none';
     logoutButton.style.display = 'none';
 
+    const loginInfoButton = document.getElementById('login-info');
+    const editInfoButton = document.getElementById('edit-info');
+    const textContainerModal = document.getElementById('text-container-modal');
+    const closeInfoModalButton = document.getElementById('close-info-modal');
+    
+    // Show modal on either button click
+    loginInfoButton.addEventListener('click', function() {
+        textContainerModal.style.display = 'block';
+    });
+    
+    editInfoButton.addEventListener('click', function() {
+        textContainerModal.style.display = 'block';
+    });
+    
+    // Close modal on close button click
+    closeInfoModalButton.addEventListener('click', function() {
+        textContainerModal.style.display = 'none';
+    });
+    
+    // Close modal when clicking outside of modal content
+    window.addEventListener('click', function(event) {
+        if (event.target === textContainerModal) {
+            textContainerModal.style.display = 'none';
+        }
+    });
+
     // Show the login modal when clicking the login button
     loginButton.addEventListener('click', function() {
         modalTitle.textContent = 'login'; // Set the title to "Login"
@@ -471,7 +497,7 @@ window.onload = function() {
             }
         }
          else {
-            // Sign-up logic (already implemented)
+            // Sign-up logic
             if (username && password && email) {
                 const userData = {
                     email: email,
@@ -531,3 +557,4 @@ $(document).ready(function() {
         }
     });
 });
+
