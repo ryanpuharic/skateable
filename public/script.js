@@ -1,6 +1,6 @@
 let mapboxApiKey = '';
 
-const ENV = 'dev'; // Change to 'production' for the production URL
+const ENV = 'prod'; // Change to 'production' for the production URL
 
 // Base URLs for each environment
 const BASE_URL = ENV === 'prod'
