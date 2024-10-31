@@ -364,18 +364,18 @@ window.onload = function() {
     const toggleFormText = document.getElementById('toggle-form-text');
     const logoutButton = document.getElementById('logout-btn');
     const userControls = document.getElementById('user-controls');
+    const loginInfoButton = document.getElementById('login-info');
+    const editInfoButton = document.getElementById('edit-info');
+    const textContainerModal = document.getElementById('text-container-modal');
+    const closeInfoModalButton = document.getElementById('close-info-modal');
+
 
     // Initially, the email field is hidden (only shown in sign-up mode)
     emailField.style.display = 'none';
     userControls.style.display = 'none';
     logoutButton.style.display = 'none';
-
-    const loginInfoButton = document.getElementById('login-info');
-    const editInfoButton = document.getElementById('edit-info');
-    const textContainerModal = document.getElementById('text-container-modal');
-    const closeInfoModalButton = document.getElementById('close-info-modal');
+    textContainerModal.style.display = 'none';
     
-    // Show modal on either button click
     loginInfoButton.addEventListener('click', function() {
         textContainerModal.style.display = 'block';
     });
@@ -384,17 +384,17 @@ window.onload = function() {
         textContainerModal.style.display = 'block';
     });
     
-    // Close modal on close button click
     closeInfoModalButton.addEventListener('click', function() {
         textContainerModal.style.display = 'none';
     });
     
-    // Close modal when clicking outside of modal content
+    // Close modal when clicking outside the modal content
     window.addEventListener('click', function(event) {
         if (event.target === textContainerModal) {
             textContainerModal.style.display = 'none';
         }
     });
+    
 
     // Show the login modal when clicking the login button
     loginButton.addEventListener('click', function() {
