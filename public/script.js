@@ -11,7 +11,7 @@ const BASE_URL = ENV === 'prod'
 // Set default map options with a fallback center point (Example: Germany)
 let defaultMapOptions = {
     center: [40.2137, -74.3001],  // Example fallback center point (can be customized)
-    zoom: 15
+    zoom: 5
 };
 
 let loggedInUser = '';
@@ -56,7 +56,7 @@ if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
         function(position) {
             const userCoords = [position.coords.latitude, position.coords.longitude];
-            map.setView(userCoords, 15); 
+            map.setView(userCoords, 5); 
         },
         function() {
             map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
@@ -557,4 +557,3 @@ $(document).ready(function() {
         }
     });
 });
-
