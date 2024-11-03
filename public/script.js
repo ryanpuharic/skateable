@@ -538,6 +538,7 @@ window.onload = function() {
         userControls.style.display = 'none'; // Hide controls
         logoutButton.style.display = 'none'; // Hide logout button
         loginSection.style.display = 'block'; // Show login button again
+        loginInfoButton.style.display = 'block'; // Show login button again
         loginButton.style.display = 'block'; // Show login button again
 
         document.getElementById('logged-in-user').textContent = 'guest';

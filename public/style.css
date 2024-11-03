@@ -1,6 +1,14 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden; /* Prevent scrollbars */
+}
+
 #map {
     width: 100%;
-    height: 100vh; 
+    height: 100vh;
+    position: relative; /* Ensures that map fills the screen */
 }
 
 #search-container {
@@ -15,10 +23,13 @@
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
+    max-width: 90%;
 }
 
 #search-input {
-    width: 300px;
+    box-sizing: border-box;
+    width: 100%; /* Full width of the container */
+    max-width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -45,7 +56,8 @@
 #header-container h1 {
     color: darkgreen;
     margin: 0;  
-    padding: 0;     
+    padding: 0;  
+    padding-bottom: 10px;   
     flex-grow: 1;   
     padding-bottom: 0;   
 }
@@ -67,14 +79,13 @@
 }
 
 #login-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
     text-align: center;
+    width: 100%;
     margin-top: 5px;
     margin-bottom: 5px;
-}
-
-#login-btn {
-    display: inline-block; /* Use inline-block for centering */
-    margin: 0 auto;        /* Center the button horizontally */
 }
 
 #buttons {
@@ -118,10 +129,22 @@
     background-color: #fefefe;
     padding: 20px;
     border: 1px solid #888;
-    width: 90%; /* Adjust to fit smaller screens */
-    max-width: 600px; /* Optional: limit maximum width */
-    max-height: 80vh; /* Set maximum height for the modal */
-    overflow-y: auto; /* Allow vertical scrolling */
+    width: 30%; /* Adjust to fit smaller screens */
+    max-width: 30vw; /* Adjust for smaller screens */
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 8px; /* Optional: rounded corners */
+}
+
+.info-modal-content {
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Adjust to fit smaller screens */
+    max-width: 50vw; /* Adjust for smaller screens */
+    max-height: 80vh;
+    overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     border-radius: 8px; /* Optional: rounded corners */
 }
@@ -165,9 +188,9 @@
 }
 
 #controls-container {
-    position: fixed; 
-    bottom: 0; 
-    left: 0; 
+    position: absolute; 
+    bottom: 10px; 
+    left: 10px; 
     padding: 10px;
     background-color: white;
     border: 1px solid #ccc;
@@ -184,6 +207,7 @@
 }
 
 #route-message {
+    box-sizing: border-box;
     width: 100%;  /* Full width of the container */
     max-width: 100%;  /* Prevent it from growing beyond the container */
     min-height: 30px;  /* Minimum height for the textarea */
@@ -221,13 +245,25 @@
     margin-right: 10px;
 }
 
-#confirm-route, #logout-btn, #login-btn, #login-info, #edit-info {
+#login-btn, #login-info {
     background-color: #28a745;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    padding: 10px 20px;
+    padding: 8px 12px; 
+    margin-bottom: 5px;
+    width: 100%; /* Make buttons take full width */
+    box-sizing: border-box; /* Ensure padding is included in the width */
+}
+
+#confirm-route, #logout-btn, #edit-info {
+    background-color: #28a745;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 8px 12px;
 }
 
 #confirm-route:disabled {
