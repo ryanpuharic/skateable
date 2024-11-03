@@ -208,15 +208,43 @@ html, body {
 
 @media (max-width: 600px) {
     #controls-container {
-        max-width: 20vw; /* Make the container take up a larger portion of the screen width */
-        max-height: 30vh; /* Adjust the height as needed */
-        padding: 8px; /* Slightly reduce padding */
-        font-size: 14px; /* Smaller font size for better fit */
+        max-width: 80vw; /* Adjust width for smaller screens */
+        max-height: 70vh; /* Allow more vertical space */
+        overflow-y: auto; /* Enable scrolling */
+        padding: 8px; /* Slightly reduced padding */
+        font-size: 14px; /* Smaller font size for container */
     }
 
-    #login-section button, #user-controls button {
-        font-size: 14px; /* Slightly smaller button text */
-        padding: 6px 10px; /* Adjust button padding for smaller screens */
+    /* Scale down all text and form elements inside the container */
+    #controls-container * {
+        font-size: 0.9em; /* Scale down font size for all elements */
+    }
+
+    #controls-container h1 {
+        font-size: 1.1em; /* Slightly smaller title */
+        white-space: nowrap;
+        overflow: hidden;
+    }
+
+    #controls-container label,
+    #controls-container select,
+    #controls-container button,
+    #controls-container input,
+    #controls-container textarea {
+        font-size: 0.9em; /* Smaller font for all form elements */
+    }
+
+    /* Buttons specifically */
+    #login-section button,
+    #user-controls button {
+        font-size: 0.85em;
+        padding: 5px 8px; /* Smaller padding for buttons */
+        margin: 3px 0; /* Reduce margin between buttons */
+    }
+
+    /* Textarea adjustments for mobile */
+    #controls-container textarea {
+        width: 90%; /* Adjust to fit container */
     }
 }
 
