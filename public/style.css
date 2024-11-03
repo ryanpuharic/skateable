@@ -206,6 +206,20 @@ html, body {
     text-align: left; 
 }
 
+@media (max-width: 600px) {
+    #controls-container {
+        max-width: 20vw; /* Make the container take up a larger portion of the screen width */
+        max-height: 30vh; /* Adjust the height as needed */
+        padding: 8px; /* Slightly reduce padding */
+        font-size: 14px; /* Smaller font size for better fit */
+    }
+
+    #login-section button, #user-controls button {
+        font-size: 14px; /* Slightly smaller button text */
+        padding: 6px 10px; /* Adjust button padding for smaller screens */
+    }
+}
+
 #route-message {
     box-sizing: border-box;
     width: 100%;  /* Full width of the container */
