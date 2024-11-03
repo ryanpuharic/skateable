@@ -208,8 +208,8 @@ html, body {
 
 @media (max-width: 600px) {
     #controls-container {
-        max-width: 65vw; /* Adjust width for smaller screens */
-        max-height: 50vh; /* Allow more vertical space */
+        max-width: 90vw; /* Adjust width for smaller screens */
+        max-height: 40vh; /* Allow more vertical space */
         overflow-y: auto; /* Enable scrolling */
         padding: 8px; /* Slightly reduced padding */
         font-size: 14px; /* Smaller font size for container */
