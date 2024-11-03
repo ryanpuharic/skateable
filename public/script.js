@@ -16,10 +16,19 @@ let defaultMapOptions = {
 
 let loggedInUser = '';
 let currentMode = 'view';  // Default mode
-let map = L.map('map');
+let map = L.map('map', {
+    maxZoom: 18,          // Set a maximum zoom level
+    inertia: true,        // Enable inertia
+    inertiaDeceleration: 2000, // Lower deceleration for smoother, slower panning
+    worldCopyJump: false,  
+    maxBounds: [
+        [85, -180],       // Limit map bounds to prevent moving to unintended areas
+        [-85, 180]
+    ],
+});
 
 // Load and add the tile layer (OpenStreetMap) to the map
-let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png');
+let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap: true });
 map.addLayer(layer);
 
 // Function to fetch the Mapbox API key from the server
