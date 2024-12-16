@@ -134,7 +134,7 @@ html, body {
     max-height: 80vh;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px; /* Optional: rounded corners */
+    border-radius: 8px; 
 }
 
 .info-modal-content {
@@ -146,7 +146,7 @@ html, body {
     max-height: 80vh;
     overflow-y: auto;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px; /* Optional: rounded corners */
+    border-radius: 8px; 
 }
 
 .close {
@@ -215,7 +215,6 @@ html, body {
         font-size: 14px; /* Smaller font size for container */
     }
 
-    /* Scale down all text and form elements inside the container */
     #controls-container * {
         font-size: 0.9em; /* Scale down font size for all elements */
     }
