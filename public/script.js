@@ -28,10 +28,50 @@ let map = L.map('map', {
     ],
 });
 
+// Function to fetch the Mapbox API key from the server
+async function fetchApiKey() {
+    try {
+        let res1 = await fetch(`${BASE_URL}/mapbox-key`);
+        
+        // Check if the response is not ok
+        if (!res1.ok) {
+            throw new Error(`Network response was not ok: ${res1.status} ${res1.statusText}`);
+        }
+
+        let data = await res1.json();
+        mapboxApiKey = data.apiKey;
+
+        let res2 = await fetch(`${BASE_URL}/thunderforest-key`);
+        
+        // Check if the response is not ok
+        if (!res2.ok) {
+            throw new Error(`Network response was not ok: ${res2.status} ${res2.statusText}`);
+        }
+
+        let data2 = await res2.json()
+        thunderforestApiKey = data2.apiKey;
+
+    } catch (error) {
+        console.error('Error fetching API key:', error.message || error);
+        alert('Failed to fetch the API key. Please try again later.');
+        throw error;  // Re-throw to allow further handling if needed
+    }
+}
+
+let topoLayer = ''
+// Fetch the Mapbox API key on page load
+fetchApiKey()
+    .then(() => {
+        // Initialize TraceStack Topo layer
+        topoLayer = L.tileLayer(`https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${thunderforestApiKey}`, { noWrap: true });
+    })
+    .catch(error => {
+        console.error('Failed to fetch the API key:', error);
+    });
+
+
 // Load and add the tile layer (OpenStreetMap) to the map
 let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { noWrap: true });
-// Initialize TraceStack Topo layer
-let topoLayer = L.tileLayer(`https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${thunderforestApiKey}`, { noWrap: true });
 
 // Add the default (OSM) layer to the map
 map.addLayer(osmLayer);
@@ -53,46 +93,6 @@ terrainToggle.addEventListener('change', () => {
         toggleText.innerText = 'terrain off';
     }
 });
-
-
-// Function to fetch the Mapbox API key from the server
-async function fetchApiKey() {
-    try {
-        let response = await fetch(`${BASE_URL}/mapbox-key`);
-        
-        // Check if the response is not ok
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-        }
-
-        let data = await response.json();
-        mapboxApiKey = data.apiKey;
-
-        response = await fetch(`${BASE_URL}/thunderforest-key`);
-        
-        // Check if the response is not ok
-        if (!response.ok) {
-            throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
-        }
-
-        data = await response.json();
-        thunderforestApiKey = data.apiKey;
-
-    } catch (error) {
-        console.error('Error fetching API key:', error.message || error);
-        alert('Failed to fetch the API key. Please try again later.');
-        throw error;  // Re-throw to allow further handling if needed
-    }
-}
-
-// Fetch the Mapbox API key on page load
-fetchApiKey()
-    .then(() => {
-    })
-    .catch(error => {
-        console.error('Failed to fetch the API key:', error);
-    });
-
 
 // Try to get the user's location
 if (navigator.geolocation) {
@@ -568,6 +568,7 @@ window.onload = function() {
     const userControls = document.getElementById('user-controls');
     const loginInfoButton = document.getElementById('login-info');
     const optionsButton = document.getElementById('options');
+    const logOptionsButton = document.getElementById('login-options');
     const editInfoButton = document.getElementById('edit-info');
     const textContainerModal = document.getElementById('text-container-modal');
     const optionsContainerModal = document.getElementById('options-container-modal');
@@ -587,6 +588,10 @@ window.onload = function() {
     });
 
     optionsButton.addEventListener('click', function() {
+        optionsContainerModal.style.display = 'block';
+    });
+
+    logOptionsButton.addEventListener('click', function() {
         optionsContainerModal.style.display = 'block';
     });
     

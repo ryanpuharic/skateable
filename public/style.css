@@ -394,12 +394,13 @@ input:checked + .slider:before {
     box-sizing: border-box; /* Ensure padding is included in the width */
 }
 
-#confirm-route, #logout-btn, #edit-info {
+#confirm-route, #logout-btn, #edit-info, #login-options {
     background-color: #28a745;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 5px;
+    margin-bottom:0;
     padding: 8px 12px;
 }
 
