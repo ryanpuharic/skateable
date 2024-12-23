@@ -1,4 +1,5 @@
 let mapboxApiKey = '';
+let thunderforestApiKey = '';
 
 const ENV = 'prod'; // Change to 'production' for the production URL
 
@@ -28,35 +29,68 @@ let map = L.map('map', {
 });
 
 // Load and add the tile layer (OpenStreetMap) to the map
-let layer = new L.TileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {noWrap: true });
-map.addLayer(layer);
+let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { noWrap: true });
+// Initialize TraceStack Topo layer
+let topoLayer = L.tileLayer(`https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=${thunderforestApiKey}`, { noWrap: true });
+
+// Add the default (OSM) layer to the map
+map.addLayer(osmLayer);
+
+// Set up toggle switch functionality
+const terrainToggle = document.getElementById('terrain-toggle');
+const toggleText = document.getElementById('terrain-text');
+
+terrainToggle.addEventListener('change', () => {
+    if (terrainToggle.checked) {
+        // Switch to TraceStack Topo map
+        map.removeLayer(osmLayer);
+        map.addLayer(topoLayer);
+        toggleText.innerText = 'terrain on';
+    } else {
+        // Switch back to OpenStreetMap standard
+        map.removeLayer(topoLayer);
+        map.addLayer(osmLayer);
+        toggleText.innerText = 'terrain off';
+    }
+});
+
 
 // Function to fetch the Mapbox API key from the server
-async function fetchMapboxApiKey() {
+async function fetchApiKey() {
     try {
-        const response = await fetch(`${BASE_URL}/mapbox-key`);
+        let response = await fetch(`${BASE_URL}/mapbox-key`);
         
         // Check if the response is not ok
         if (!response.ok) {
             throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
         }
 
-        const data = await response.json();
+        let data = await response.json();
         mapboxApiKey = data.apiKey;
 
+        response = await fetch(`${BASE_URL}/thunderforest-key`);
+        
+        // Check if the response is not ok
+        if (!response.ok) {
+            throw new Error(`Network response was not ok: ${response.status} ${response.statusText}`);
+        }
+
+        data = await response.json();
+        thunderforestApiKey = data.apiKey;
+
     } catch (error) {
-        console.error('Error fetching Mapbox API key:', error.message || error);
-        alert('Failed to fetch the Mapbox API key. Please try again later.');
+        console.error('Error fetching API key:', error.message || error);
+        alert('Failed to fetch the API key. Please try again later.');
         throw error;  // Re-throw to allow further handling if needed
     }
 }
 
 // Fetch the Mapbox API key on page load
-fetchMapboxApiKey()
+fetchApiKey()
     .then(() => {
     })
     .catch(error => {
-        console.error('Failed to fetch the Mapbox API key:', error);
+        console.error('Failed to fetch the API key:', error);
     });
 
 
@@ -118,6 +152,20 @@ document.getElementById('search-input').addEventListener('keypress', function(e)
     }
 });
 
+//Accessibility Toggle
+const accessibleToggle = document.getElementById("accessible-toggle");
+let isAccessible = accessibleToggle.checked;
+
+const accessibleColorMap = {
+    yellowgreen: "#6DDE00", // Accessible version of red
+    palegoldenrod: "#0EF3EE", // Accessible version of blue
+    lightsalmon: "#FF1B7A", // Accessible version of green
+    tomato: "#6e54ff",
+    darkgreen: "#AFAFAF",
+    darkgoldenrod: "#545454",
+    darkred:"#000000"
+};
+
 // Routing layer where the user-created roads will appear temporarily
 let temporaryRoute = null;
 let routeData = null; 
@@ -144,6 +192,14 @@ function addTemporaryRoute(startPoint, endPoint) {
     });
 
     // Create a new routing control using Mapbox, explicitly disabling the itinerary
+    let oColor = routeBorderColorSelector.value;
+    let iColor = routeColorSelector.value;
+
+    if(isAccessible){
+        oColor = accessibleColorMap[routeBorderColorSelector.value];
+        iColor = accessibleColorMap[routeColorSelector.value];
+    }
+
     temporaryRoute = L.Routing.control({
         plan: customPlan,
         router: L.Routing.mapbox(mapboxApiKey, {
@@ -151,8 +207,8 @@ function addTemporaryRoute(startPoint, endPoint) {
         }),
         lineOptions: {
             styles: [
-                { color: routeBorderColorSelector.value, weight: 13 },  // Border layer
-                { color: routeColorSelector.value, weight: 5 }  // Main route layer
+                { color: oColor, weight: 13 },  // Border layer
+                { color: iColor, weight: 5 }  // Main route layer
             ]
         },
         fitSelectedRoutes: true,
@@ -172,17 +228,24 @@ function addTemporaryRoute(startPoint, endPoint) {
 function addClickableRoute(coordinates, route) {
     for (let i = 0; i < coordinates.length - 1; i++) {
         let segmentCoordinates = [coordinates[i], coordinates[i + 1]];
+        let oColor = route.borderColor;
+        let iColor = route.color;
+
+        if(isAccessible){
+            oColor = accessibleColorMap[route.borderColor];
+            iColor = accessibleColorMap[route.color];
+        }
 
         // Create a polyline for each segment
         let segment = L.polyline(segmentCoordinates, {
-            color: route.borderColor,
+            color: oColor,
             weight: 13,
             zIndex: 1
         }).addTo(permanentRoutes);
 
         // Create a thinner polyline for the main line
         let mainSegment = L.polyline(segmentCoordinates, {
-            color: route.color,
+            color: iColor,
             weight: 5,
             zIndex: 2
         }).addTo(permanentRoutes);
@@ -243,15 +306,23 @@ function confirmRoute() {
         .then(data => console.log('Route saved.'))
         .catch(error => console.error('Error saving route:', error));
 
+        let oColor = route.borderColor;
+        let iColor = route.color;
+
+        if(isAccessible){
+            oColor = accessibleColorMap[route.borderColor];
+            iColor = accessibleColorMap[route.color];
+        }
+
         L.polyline(coordinates, {
-            color: routeBorderColorSelector.value,  // Border color
+            color: oColor.value,  // Border color
             weight: 13,  // Thicker border
             zIndex: 1   // Ensure the border is drawn beneath the main line
         }).addTo(permanentRoutes);  // Add to permanent routes layer
 
         // Create a polyline for the main line color with a smaller weight and higher zIndex
         const routeLine = L.polyline(coordinates, {
-            color: routeColorSelector.value,  // Main color
+            color: iColor.value,  // Main color
             weight: 5,  // Thinner main line
             zIndex: 2   // Ensure the main line is drawn on top
         }).addTo(permanentRoutes);  // Add to permanent routes layer
@@ -289,15 +360,24 @@ map.on('click', function(e) {
 
         permanentRoutes.eachLayer(function(layer) {
             if (layer instanceof L.Polyline) {
-                // Check if the clicked point is near a route
                 const latLngs = layer.getLatLngs();
-                latLngs.forEach(function(latLng) {
-                    if (map.distance(e.latlng, latLng) < 10) {  // Adjust distance tolerance as needed
+                let isOnRoute = false;
+        
+                // Iterate through each segment of the polyline
+                for (let i = 0; i < latLngs.length - 1; i++) {
+                    const p1 = latLngs[i];
+                    const p2 = latLngs[i + 1];
+        
+                    // Check if the clicked point is near the segment
+                    if (isPointOnSegment(e.latlng, p1, p2, 15)) { // last digit is tolerance
                         clickedRoute = layer;
+                        isOnRoute = true;
+                        break;
                     }
-                });
+                }
             }
         });
+        
 
         if (clickedRoute) {
             // Show popup with timestamp and message if available
@@ -313,6 +393,54 @@ map.on('click', function(e) {
     }
 });
 
+// Helper function to check if a point is on a line segment
+function isPointOnSegment(point, segmentStart, segmentEnd, tolerance) {
+    // Convert LatLng to Point for distance calculation
+    const pointPx = map.latLngToLayerPoint(point);
+    const startPx = map.latLngToLayerPoint(segmentStart);
+    const endPx = map.latLngToLayerPoint(segmentEnd);
+
+    // Calculate the distance from the point to the segment
+    const dist = pointToSegmentDistance(pointPx, startPx, endPx);
+
+    // Return true if the distance is within the tolerance
+    return dist <= tolerance;
+}
+
+// Helper function to calculate the perpendicular distance between clicked point and line
+function pointToSegmentDistance(point, segmentStart, segmentEnd) {
+    const x = point.x, y = point.y;
+    const x1 = segmentStart.x, y1 = segmentStart.y;
+    const x2 = segmentEnd.x, y2 = segmentEnd.y;
+
+    const A = x - x1;
+    const B = y - y1;
+    const C = x2 - x1;
+    const D = y2 - y1;
+
+    const dot = A * C + B * D;
+    const lenSq = C * C + D * D;
+    const param = lenSq !== 0 ? dot / lenSq : -1;
+
+    let xx, yy;
+
+    if (param < 0) {
+        xx = x1;
+        yy = y1;
+    } else if (param > 1) {
+        xx = x2;
+        yy = y2;
+    } else {
+        xx = x1 + param * C;
+        yy = y1 + param * D;
+    }
+
+    const dx = x - xx;
+    const dy = y - yy;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
 //Event listener for mode toggle
 const modeToggle = document.getElementById('mode-toggle');
 modeToggle.addEventListener('change', function() {
@@ -325,6 +453,71 @@ confirmRouteButton.addEventListener('click', confirmRoute);
 // Event listeners for color selection changes
 routeColorSelector.addEventListener('change', updateTemporaryRouteStyle);
 routeBorderColorSelector.addEventListener('change', updateTemporaryRouteStyle);
+
+// Original colors for reset
+const originalColorMap = new Map();
+
+
+// Handle toggle change
+accessibleToggle.addEventListener("change", function () {
+    isAccessible = accessibleToggle.checked;
+    toggleModalColors(isAccessible);
+
+    permanentRoutes.eachLayer(function (layer) {
+        if (layer instanceof L.Polyline) {
+            const originalColor = layer.options.color;
+
+            if (isAccessible) {
+                // Save original color if not already saved
+                if (!originalColorMap.has(layer)) {
+                    originalColorMap.set(layer, originalColor);
+                }
+
+                // Apply accessible color
+                const accessibleColor = accessibleColorMap[originalColor] || originalColor; // Fallback to original if no mapping
+                layer.setStyle({ color: accessibleColor });
+            } else {
+                // Reset to original color
+                const resetColor = originalColorMap.get(layer);
+                if (resetColor) {
+                    layer.setStyle({ color: resetColor });
+                }
+            }
+        }
+    });
+});
+
+const rgbToNameMap = {
+    "rgb(154, 205, 50)": "yellowgreen",
+    "rgb(238, 232, 170)": "palegoldenrod",
+    "rgb(255, 160, 122)": "lightsalmon",
+    "rgb(255, 99, 71)": "tomato",
+    "rgb(0, 100, 0)": "darkgreen",
+    "rgb(184, 134, 11)": "darkgoldenrod",
+    "rgb(139, 0, 0)": "darkred",
+    // Add more mappings as needed
+};
+
+function rgbToName(rgb) {
+    return rgbToNameMap[rgb] || null;
+}
+
+function toggleModalColors(isAccessible) {
+    const colorElements = document.querySelectorAll("#text-container-modal span");
+
+    colorElements.forEach(el => {
+        const currentBgColor = window.getComputedStyle(el).backgroundColor;
+        const currentColorName = rgbToName(currentBgColor); 
+
+        if (isAccessible && currentColorName) {
+            el.style.backgroundColor = accessibleColorMap[currentColorName];
+        } else if (currentColorName) {
+            // Reset to original color
+            el.style.backgroundColor = currentColorName;
+        }
+    });
+}
+
 
 window.onload = function() {
     // Fetch existing routes from the backend and add them to the map
@@ -374,9 +567,12 @@ window.onload = function() {
     const logoutButton = document.getElementById('logout-btn');
     const userControls = document.getElementById('user-controls');
     const loginInfoButton = document.getElementById('login-info');
+    const optionsButton = document.getElementById('options');
     const editInfoButton = document.getElementById('edit-info');
     const textContainerModal = document.getElementById('text-container-modal');
+    const optionsContainerModal = document.getElementById('options-container-modal');
     const closeInfoModalButton = document.getElementById('close-info-modal');
+    const closeOptionsButton = document.getElementById('close-options-modal');
 
 
     // Initially, the email field is hidden (only shown in sign-up mode)
@@ -384,9 +580,14 @@ window.onload = function() {
     userControls.style.display = 'none';
     logoutButton.style.display = 'none';
     textContainerModal.style.display = 'none';
+    optionsContainerModal.style.display = 'none';
     
     loginInfoButton.addEventListener('click', function() {
         textContainerModal.style.display = 'block';
+    });
+
+    optionsButton.addEventListener('click', function() {
+        optionsContainerModal.style.display = 'block';
     });
     
     editInfoButton.addEventListener('click', function() {
@@ -396,11 +597,19 @@ window.onload = function() {
     closeInfoModalButton.addEventListener('click', function() {
         textContainerModal.style.display = 'none';
     });
+
+    closeOptionsButton.addEventListener('click', function() {
+        optionsContainerModal.style.display = 'none';
+    });
     
     // Close modal when clicking outside the modal content
     window.addEventListener('click', function(event) {
         if (event.target === textContainerModal) {
             textContainerModal.style.display = 'none';
+        }
+
+        if (event.target === optionsContainerModal) {
+            optionsContainerModal.style.display = 'none';
         }
     });
     
@@ -548,6 +757,7 @@ window.onload = function() {
         logoutButton.style.display = 'none'; // Hide logout button
         loginSection.style.display = 'block'; // Show login button again
         loginInfoButton.style.display = 'block'; // Show login button again
+        optionsButton.style.display = 'block'; // Show login button again
         loginButton.style.display = 'block'; // Show login button again
 
         document.getElementById('logged-in-user').textContent = 'guest';

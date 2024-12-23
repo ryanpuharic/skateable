@@ -127,6 +127,11 @@ app.get('/api/mapbox-key', (req, res) => {
   res.json({ apiKey: process.env.MAPBOX_KEY });
 });
 
+// GET route to fetch Thunderforest API key
+app.get('/api/thunderforest-key', (req, res) => {
+  res.json({ apiKey: process.env.THUNDERFOREST_KEY });
+});
+
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

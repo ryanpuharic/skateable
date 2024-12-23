@@ -57,7 +57,6 @@ html, body {
     color: darkgreen;
     margin: 0;  
     padding: 0;  
-    padding-bottom: 10px;   
     flex-grow: 1;   
     padding-bottom: 0;   
 }
@@ -99,54 +98,35 @@ html, body {
 }
 
 /* Modal (popup) styles */
-.modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.modal, .info-modal {
+    display: flex; /* Enable flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000; /* Ensure it overlays the map */
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 1000; /* Ensure it overlays other content */
 }
 
-.info-modal {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000; /* Ensure it overlays the map */
-}
-
-.modal-content {
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 30%; /* Adjust to fit smaller screens */
-    max-width: 30vw; /* Adjust for smaller screens */
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px; 
-}
-
-.info-modal-content {
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 40%; /* Adjust to fit smaller screens */
-    max-width: 40vw; /* Adjust for smaller screens */
-    max-height: 80vh;
-    overflow-y: auto;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    border-radius: 8px; 
+/* Content styling */
+.modal-content, .info-modal-content {
+    background-color: #fefefe; /* White background */
+    padding: 20px; /* Inner padding */
+    border: 1px solid #888; /* Border */
+    width: 30%; /* Width of content box */
+    max-width: 90%; /* Ensure it fits smaller screens */
+    max-height: 80vh; /* Prevent overflow vertically */
+    overflow-y: auto; /* Enable scrolling if content exceeds max height */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for emphasis */
+    border-radius: 8px; /* Rounded corners */
+    box-sizing: border-box; /* Include padding and border in width/height */
+    transform: translate(-50%, -50%);
+    position: relative;
+    top: 50%;
+    left: 50%;
 }
 
 .close {
@@ -175,6 +155,99 @@ html, body {
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+
+#displays {
+    font-weight: bold; /* Makes the font inside the select box bold */
+    font-size: 16px; /* Increases the font size */
+    padding: 10px; /* Adds padding inside the select box */
+    width: 200px; /* Makes the select box wider */
+    border-radius: 5px; /* Optional: Adds rounded corners */
+    border: 2px solid #ccc; /* Optional: Adds border color */
+    background-color: #f9f9f9; /* Optional: Background color */
+    box-sizing: border-box; /* Ensures padding is included in the width */
+}
+
+#displays option {
+    font-weight: bold; /* Makes the font inside the options bold */
+    font-size: 16px; /* Increases the font size inside the options */
+}
+
+.row {
+    display: flex;
+    justify-content: space-between; /* Ensure space between the switch and the text */
+    align-items: center; /* Align elements vertically */
+    width: 100%; /* Ensure it takes up full width of the container */
+}
+
+#toggle-text, #terrain-text {
+    margin: 0;
+    font-size: 20px;
+    text-align: right; /* Align the text to the right */
+    flex-grow: 1; /* Allow it to take the available space */
+}
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 80px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .2s;
+    transition: .2s;
+}
+
+input:checked + .slider {
+    background-color: #28a745;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #28a745;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(46px);
+    -ms-transform: translateX(46px);
+    transform: translateX(46px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
 }
 
 #login-form {
@@ -220,9 +293,10 @@ html, body {
     }
 
     #controls-container h1 {
-        font-size: 1.1em; /* Slightly smaller title */
+        font-size: 1.3em; /* Slightly smaller title */
         white-space: nowrap;
         overflow: hidden;
+        text-align: center;
     }
 
     #controls-container label,
@@ -271,14 +345,36 @@ html, body {
     font-size: 25px;
 }
 
+#h5 {
+    margin: 0; 
+    padding: 0;
+}
+
 .desc {
     margin: 0; 
     padding-bottom: 5px;
 }
 
-.sub{
+.head{
+    margin: 0; 
+    padding: 0;
+    font-size:large;
+    font-weight: bolder;
+}
+
+.subhead{
     margin: 0; 
     padding-top: 3px;
+    padding-bottom: 6px;
+    font-size: small;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.sub{
+    margin: 0; 
+    padding: 0;
+    text-align: center;
     font-size: x-small;
 }
 
@@ -286,7 +382,7 @@ html, body {
     margin-right: 10px;
 }
 
-#login-btn, #login-info {
+#login-btn, #login-info, #options {
     background-color: #28a745;
     color: white;
     border: none;

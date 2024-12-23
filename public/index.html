@@ -26,15 +26,19 @@
 
         <div id="login-section">
             <button id="login-info">how to</button>
+            <button id="options">options</button>
+            <p class = "subhead">login to edit the map</p>
             <button id="login-btn">login</button>
         </div>
-
+        
         
         <div id="text-container-modal" class="info-modal">
             <div class="info-modal-content">
-                <span class="info-close" id="close-info-modal">&times;</span>
-                <h1> <span style="color: darkgreen;"> skateable </span></h1>
-                <h4>road smoothness & safety map</h4>
+                <div class = "row">
+                    <h1> <span style="color: darkgreen;"> skateable </span></h1>
+                    <span class="info-close" id="close-info-modal">&times;</span>
+                </div>
+                <p class = "head">how to</p>
                 <p class = "desc">
                     &#10022; to edit the map, first log in <br>
                     &#10022; there are two modes: view and draw. <br><br>
@@ -60,12 +64,38 @@
                 </p>
             </div>
         </div>
+
+        <div id="options-container-modal" class="info-modal">
+            <div class="info-modal-content">
+                <div class = "row">
+                    <h1> <span style="color: darkgreen;"> skateable </span></h1>
+                    <span class="info-close" id="close-options-modal">&times;</span>
+                </div>
+                <div class = "row">
+                    <label class="switch">
+                        <input type="checkbox" id="accessible-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <h2 id="toggle-text">accessible colors</h2>
+                </div>
+                <br>
+                <div class = "row">
+                    <label class="switch">
+                        <input type="checkbox" id="terrain-toggle">
+                        <span class="slider round"></span>
+                    </label>
+                    <h2 id="terrain-text">terrain off</h2>
+                </div>
+            </div>
+        </div>
         
         <!-- Login Modal -->
         <div id="login-modal" class="modal" style="display: none;">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <h2 id="modal-title">login</h2>
+                <div class = "row">
+                    <h2 id="modal-title">login</h2>
+                    <span class="close">&times;</span>
+                </div>
                 <form id="login-form">
                     <div id="email-field" style="display: none;">
                         <label for="email">email:</label>
