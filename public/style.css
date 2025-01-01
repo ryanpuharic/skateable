@@ -319,6 +319,10 @@ input:checked + .slider:before {
     #controls-container textarea {
         width: 90%; /* Adjust to fit container */
     }
+
+    .modal-content, .info-modal-content {
+        width: 90%; /* Expand the width on smaller screens */
+    }
 }
 
 #route-message {
