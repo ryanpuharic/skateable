@@ -93,20 +93,41 @@ terrainToggle.addEventListener('change', () => {
     }
 });
 
-// Try to get the user's location
+// Real-time location tracking
+let userLocationCircle;
+
+// Function to update user location
+function updateUserLocation(position) {
+    const { latitude, longitude } = position.coords;
+
+    if (!userLocationCircle) {
+        // Create a blue circle if it doesn't exist
+        userLocationCircle = L.circle([latitude, longitude], {
+            color: 'blue',
+            fillColor: '#0000FF',
+            fillOpacity: 0.5,
+            radius: 50, // Radius in meters
+        }).addTo(map);
+        map.setView([latitude, longitude], 15); // Center map on user location
+    } else {
+        // Update the circle's position
+        userLocationCircle.setLatLng([latitude, longitude]);
+    }
+}
+
+// Function to handle location errors
+function handleLocationError(error) {
+    console.error('Error getting location:', error.message);
+}
+
+// Watch the user's position and update in real-time
 if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(
-        function(position) {
-            const userCoords = [position.coords.latitude, position.coords.longitude];
-            map.setView(userCoords, 5); 
-        },
-        function() {
-            map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
-        }
-    );
+    navigator.geolocation.watchPosition(updateUserLocation, handleLocationError, {
+        enableHighAccuracy: true,
+        maximumAge: 0,
+    });
 } else {
-    // If geolocation is not supported, use the default center
-    map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
+    console.error('Geolocation is not supported by this browser.');
 }
 
 // Function to search location using OpenStreetMap's API
