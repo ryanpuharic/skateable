@@ -314,14 +314,14 @@ function confirmRoute() {
         }
 
         L.polyline(coordinates, {
-            color: oColor.value,  // Border color
+            color: oColor,  // Border color
             weight: 13,  // Thicker border
             zIndex: 1   // Ensure the border is drawn beneath the main line
         }).addTo(permanentRoutes);  // Add to permanent routes layer
 
         // Create a polyline for the main line color with a smaller weight and higher zIndex
         const routeLine = L.polyline(coordinates, {
-            color: iColor.value,  // Main color
+            color: iColor,  // Main color
             weight: 5,  // Thinner main line
             zIndex: 2   // Ensure the main line is drawn on top
         }).addTo(permanentRoutes);  // Add to permanent routes layer
