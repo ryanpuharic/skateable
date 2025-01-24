@@ -305,12 +305,12 @@ function confirmRoute() {
         .then(data => console.log('Route saved.'))
         .catch(error => console.error('Error saving route:', error));
 
-        let oColor = route.borderColor;
-        let iColor = route.color;
+        let oColor = routeDetails.borderColor;
+        let iColor = routeDetails.color;
 
         if(isAccessible){
-            oColor = accessibleColorMap[route.borderColor];
-            iColor = accessibleColorMap[route.color];
+            oColor = accessibleColorMap[routeDetails.borderColor];
+            iColor = accessibleColorMap[routeDetails.color];
         }
 
         L.polyline(coordinates, {
