@@ -9,9 +9,8 @@ const BASE_URL = ENV === 'prod'
     : 'http://localhost:5000/api';          // Development URL 
 
 
-// Set default map options with a fallback center point (Example: Germany)
 let defaultMapOptions = {
-    center: [40.2137, -74.3001],  // Example fallback center point (can be customized)
+    center: [40.2137, -74.3001], 
     zoom: 5
 };
 
