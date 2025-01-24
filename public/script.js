@@ -93,8 +93,53 @@ terrainToggle.addEventListener('change', () => {
     }
 });
 
-// Real-time location tracking
-let userLocationCircle;
+// Add this near the top of your script
+let userLocationMarker = null;
+let userLocationCircle = null;
+
+// Function to display and continuously update the user's location
+function trackUserLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.watchPosition(
+            function (position) {
+                const userCoords = [position.coords.latitude, position.coords.longitude];
+
+                // If the marker already exists, update its position
+                if (userLocationMarker) {
+                    userLocationMarker.setLatLng(userCoords).bringToFront();
+                    userLocationCircle.setLatLng(userCoords).bringToFront();
+                } else {
+                    // Create the marker and circle for the first time
+                    userLocationMarker = L.marker(userCoords, {
+                        icon: L.divIcon({
+                            className: 'user-location-icon',
+                            html: '<div style="width: 15px; height: 15px; background: blue; border-radius: 50%; border: 2px solid white;"></div>',
+                        }),
+                    }).addTo(map);
+
+                    userLocationCircle = L.circle(userCoords, {
+                        radius: 50, // Adjust radius as needed
+                        color: 'blue',
+                        fillColor: 'blue',
+                        fillOpacity: 0.2,
+                    }).addTo(map);
+                }
+
+                // Ensure the map view remains centered on the user's location
+                map.setView(userCoords, map.getZoom());
+            },
+            function () {
+                console.warn('Unable to retrieve user location.');
+            },
+            { enableHighAccuracy: true }
+        );
+    } else {
+        console.error('Geolocation is not supported by this browser.');
+    }
+}
+
+// Call the function to start tracking
+trackUserLocation();
 
 // Function to update user location
 function updateUserLocation(position) {
@@ -108,7 +153,6 @@ function updateUserLocation(position) {
             fillOpacity: 0.5,
             radius: 50, // Radius in meters
         }).addTo(map);
-        map.setView([latitude, longitude], 15); // Center map on user location
     } else {
         // Update the circle's position
         userLocationCircle.setLatLng([latitude, longitude]);
