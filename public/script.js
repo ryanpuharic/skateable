@@ -1,7 +1,7 @@
 let mapboxApiKey = '';
 let thunderforestApiKey = '';
 
-const ENV = 'prod'; // Change to 'production' for the production URL
+const ENV = 'dev'; // Change to 'production' for the production URL
 
 // Base URLs for each environment
 const BASE_URL = ENV === 'prod'
@@ -108,10 +108,13 @@ function updateUserLocation(position) {
             fillOpacity: 0.5,
             radius: 50, // Radius in meters
         }).addTo(map);
+        map.setView([latitude, longitude], 20); // Center map on user location
     } else {
         // Update the circle's position
         userLocationCircle.setLatLng([latitude, longitude]);
     }
+
+    userLocationCircle.bringToFront();
 }
 
 // Function to handle location errors
