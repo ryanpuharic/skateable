@@ -18,5 +18,8 @@
     "mongodb": "^6.9.0",
     "mongoose": "^8.6.3"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "cypress": "^14.0.3"
+  }
 }
