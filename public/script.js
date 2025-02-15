@@ -179,9 +179,9 @@ const accessibleToggle = document.getElementById("accessible-toggle");
 let isAccessible = accessibleToggle.checked;
 
 const accessibleColorMap = {
-    yellowgreen: "#6DDE00", // Accessible version of red
-    palegoldenrod: "#0EF3EE", // Accessible version of blue
-    lightsalmon: "#FF1B7A", // Accessible version of green
+    yellowgreen: "#6DDE00",
+    palegoldenrod: "#0EF3EE", 
+    lightsalmon: "#FF1B7A", 
     tomato: "#6e54ff",
     darkgreen: "#AFAFAF",
     darkgoldenrod: "#545454",
@@ -524,7 +524,7 @@ function rgbToName(rgb) {
 }
 
 function toggleModalColors(isAccessible) {
-    const colorElements = document.querySelectorAll("#text-container-modal span");
+    const colorElements = document.querySelectorAll("#map-key span");
 
     colorElements.forEach(el => {
         const currentBgColor = window.getComputedStyle(el).backgroundColor;
@@ -534,7 +534,7 @@ function toggleModalColors(isAccessible) {
             el.style.backgroundColor = accessibleColorMap[currentColorName];
         } else if (currentColorName) {
             // Reset to original color
-            el.style.backgroundColor = currentColorName;
+            el.style.backgroundColor = Object.keys(rgbToNameMap).find(key => rgbToNameMap[key] === currentColorName);
         }
     });
 }
@@ -761,8 +761,8 @@ window.onload = function() {
                     } else {
                         // Successful signup logic
                         loginModal.style.display = 'none';
-                        loginSection.style.display = 'block'; // Show login button again
-                        loginButton.style.display = 'block'; // Show login button again
+                        loginSection.style.display = 'block'; 
+                        loginButton.style.display = 'block'; 
                         signUpMainButton.style.display = 'none';
 
                         logoutButton.style.display = 'none'; 
@@ -779,12 +779,12 @@ window.onload = function() {
 
     logoutButton.addEventListener('click', function() {
         // Hide user controls and show the login button
-        userControls.style.display = 'none'; // Hide controls
-        logoutButton.style.display = 'none'; // Hide logout button
-        loginSection.style.display = 'block'; // Show login button again
-        loginInfoButton.style.display = 'block'; // Show login button again
-        optionsButton.style.display = 'block'; // Show login button again
-        loginButton.style.display = 'block'; // Show login button again
+        userControls.style.display = 'none'; 
+        logoutButton.style.display = 'none'; 
+        loginSection.style.display = 'block'; 
+        loginInfoButton.style.display = 'block'; 
+        optionsButton.style.display = 'block'; 
+        loginButton.style.display = 'block'; 
 
         document.getElementById('logged-in-user').textContent = 'guest';
     });
