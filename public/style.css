@@ -76,6 +76,7 @@ html, body {
 
 #user-controls {
     display: none; /* Initially hidden */
+    margin-top: 10px;
 }
 
 #login-section {
@@ -324,6 +325,14 @@ input:checked + .slider:before {
         font-size: 14px; 
     }
 
+    #user-controls {
+        max-width: 30vw; 
+        max-height: 20vh; 
+        overflow-y: auto; 
+        padding: 8px; 
+        font-size: 14px; 
+    }
+
     #map-key {
         max-width: 40vw; 
         max-height: 20vh; 
@@ -341,6 +350,9 @@ input:checked + .slider:before {
         font-size: 0.5em; 
     }
 
+    #user-controls * {
+        font-size: 0.5em; 
+    }
 
     #controls-container h1 {
         font-size: 1.1em; 
