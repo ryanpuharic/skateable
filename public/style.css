@@ -422,7 +422,7 @@ input:checked + .slider:before {
     #map-key {
         max-width: 70vw;
         max-height: 20vh;
-        overflow: hidden; 
+        overflow-y: auto; 
         font-size: 14px;
         display: flex;
         flex-direction: column;
@@ -431,7 +431,7 @@ input:checked + .slider:before {
     #user-controls{
         max-width: 30vw;
         max-height: 20vh;
-        overflow: hidden; 
+        overflow-y: auto; 
         font-size: 14px;
         display: flex;
         flex-direction: column;
