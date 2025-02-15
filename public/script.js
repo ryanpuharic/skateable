@@ -1,12 +1,12 @@
 let mapboxApiKey = '';
 let thunderforestApiKey = '';
 
-const ENV = 'prod'; // Change to 'production' for the production URL
+const ENV = 'prod';
 
 // Base URLs for each environment
 const BASE_URL = ENV === 'prod'
-    ? 'https://skateable.onrender.com/api'  // Production URL
-    : 'http://localhost:5000/api';          // Development URL 
+    ? 'https://skateable.onrender.com/api'  
+    : 'http://localhost:5000/api';          
 
 
 let defaultMapOptions = {
@@ -575,15 +575,15 @@ window.onload = function() {
 
     // DOM Elements for login/logout functionality
     const loginButton = document.getElementById('login-btn');
-    const signUpMainButton = document.getElementById('sign-up-main-btn'); // New Sign-Up Button
+    const signUpMainButton = document.getElementById('sign-up-main-btn'); 
     const loginSection = document.getElementById('login-section');
     const loginModal = document.getElementById('login-modal');
     const closeModal = document.querySelector('.close');
     const loginForm = document.getElementById('login-form');
     const toggleSignUpButton = document.getElementById('toggle-sign-up-btn');
-    const emailField = document.getElementById('email-field'); // New Email Field
-    const modalTitle = document.getElementById('modal-title'); // Modal title
-    const submitButton = document.getElementById('submit-btn'); // Submit button
+    const emailField = document.getElementById('email-field'); 
+    const modalTitle = document.getElementById('modal-title');
+    const submitButton = document.getElementById('submit-btn'); 
     const toggleFormText = document.getElementById('toggle-form-text');
     const logoutButton = document.getElementById('logout-btn');
     const userControls = document.getElementById('user-controls');
