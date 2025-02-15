@@ -419,6 +419,22 @@ input:checked + .slider:before {
     }
 
     #controls-container,
+    #map-key,
+    #user-controls {
+        -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
+        touch-action: manipulation; /* Improve touch responsiveness */
+        overscroll-behavior: contain; /* Prevent bleed-through */
+    }
+
+    /* Add these rules to ensure clickable elements remain interactive */
+    #controls-container *,
+    #map-key *,
+    #user-controls * {
+        pointer-events: auto;
+        touch-action: manipulation;
+    }
+
+    #controls-container,
     #map-key {
         max-width: 70vw;
         max-height: 20vh;
