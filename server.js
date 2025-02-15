@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 5000;
 
 require('dotenv').config();
 
-// Middleware
 app.use(cors());
 app.use(bodyParser.json());
 
@@ -22,22 +21,20 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log("Connected to MongoDB successfully"))
 .catch(err => console.error("Error connecting to MongoDB:", err));
 
-
-// Serve static files (HTML, CSS, JS) from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Serve index.html for the root route (main page)
+// root route 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // Route schema
 const routeSchema = new mongoose.Schema({
-  coordinates: [[Number]],  // Array of coordinate arrays [lat, lng]
-  color: String,            // Route color
-  borderColor: String,      // Route border color
-  timestamp: Date,          // Route creation timestamp
-  message: String,           // Route message
+  coordinates: [[Number]], 
+  color: String,           
+  borderColor: String,      
+  timestamp: Date,          
+  message: String,          
   username: String
 });
 

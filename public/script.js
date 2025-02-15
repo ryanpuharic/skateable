@@ -73,8 +73,6 @@ fetchApiKey()
 
 // Load and add the tile layer (OpenStreetMap) to the map
 let osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { noWrap: true });
-
-// Add the default (OSM) layer to the map
 map.addLayer(osmLayer);
 
 // Set up toggle switch functionality
@@ -83,12 +81,10 @@ const toggleText = document.getElementById('terrain-text');
 
 terrainToggle.addEventListener('change', () => {
     if (terrainToggle.checked) {
-        // Switch to TraceStack Topo map
         map.removeLayer(osmLayer);
         map.addLayer(topoLayer);
         toggleText.innerText = 'terrain on';
     } else {
-        // Switch back to OpenStreetMap standard
         map.removeLayer(topoLayer);
         map.addLayer(osmLayer);
         toggleText.innerText = 'terrain off';
@@ -108,9 +104,9 @@ function updateUserLocation(position) {
             color: 'blue',
             fillColor: '#0000FF',
             fillOpacity: 0.5,
-            radius: 50, // Radius in meters
+            radius: 50,
         }).addTo(map);
-        map.setView([latitude, longitude], 10); // Center map on user location
+        map.setView([latitude, longitude], 10); 
     } else {
         // Update the circle's position
         userLocationCircle.setLatLng([latitude, longitude]);
@@ -209,11 +205,10 @@ function addTemporaryRoute(startPoint, endPoint) {
 
     // Custom routing plan to disable markers
     const customPlan = L.Routing.plan([L.latLng(startPoint), L.latLng(endPoint)], {
-        createMarker: function() { return null; },  // Disable markers
-        addWaypoints: false  // Disable waypoint dragging
+        createMarker: function() { return null; },  
+        addWaypoints: false
     });
 
-    // Create a new routing control using Mapbox, explicitly disabling the itinerary
     let oColor = routeBorderColorSelector.value;
     let iColor = routeColorSelector.value;
 
@@ -229,8 +224,8 @@ function addTemporaryRoute(startPoint, endPoint) {
         }),
         lineOptions: {
             styles: [
-                { color: oColor, weight: 13 },  // Border layer
-                { color: iColor, weight: 5 }  // Main route layer
+                { color: oColor, weight: 13 },
+                { color: iColor, weight: 5 } 
             ]
         },
         fitSelectedRoutes: true,
@@ -306,7 +301,7 @@ function updateTemporaryRouteStyle() {
 function confirmRoute() {
     if (routeData) {
         const timestamp = new Date();
-        const routeMessage = routeMessageInput.value || "";  // Use a default message if none is entered
+        const routeMessage = routeMessageInput.value || "";  
         const coordinates = routeData.coordinates.map(coord => [coord.lat, coord.lng]);
 
         // Send route data to backend for saving
@@ -337,17 +332,17 @@ function confirmRoute() {
         }
 
         L.polyline(coordinates, {
-            color: oColor,  // Border color
-            weight: 13,  // Thicker border
-            zIndex: 1   // Ensure the border is drawn beneath the main line
-        }).addTo(permanentRoutes);  // Add to permanent routes layer
+            color: oColor,  
+            weight: 13,  
+            zIndex: 1   
+        }).addTo(permanentRoutes);  
 
         // Create a polyline for the main line color with a smaller weight and higher zIndex
         const routeLine = L.polyline(coordinates, {
-            color: iColor,  // Main color
-            weight: 5,  // Thinner main line
-            zIndex: 2   // Ensure the main line is drawn on top
-        }).addTo(permanentRoutes);  // Add to permanent routes layer
+            color: iColor, 
+            weight: 5, 
+            zIndex: 2  
+        }).addTo(permanentRoutes);  
         
         // Attach route details to the polyline for easy access in view mode
         routeLine.routeDetails = {
@@ -359,7 +354,7 @@ function confirmRoute() {
         // Remove the temporary routing control and reset the button and message input
         map.removeControl(temporaryRoute);
         temporaryRoute = null;
-        routeData = null;  // Clear route data
+        routeData = null;  
         confirmRouteButton.disabled = true;
 
         // Clear the text area after confirming the route
@@ -642,20 +637,20 @@ window.onload = function() {
 
     // Show the login modal when clicking the login button
     loginButton.addEventListener('click', function() {
-        modalTitle.textContent = 'login'; // Set the title to "Login"
-        submitButton.textContent = 'login'; // Set the button text to "Login"
-        emailField.style.display = 'none'; // Hide the email field in login mode
+        modalTitle.textContent = 'login'; 
+        submitButton.textContent = 'login';
+        emailField.style.display = 'none'; 
         toggleFormText.innerHTML = 'don\'t have an account? <button id="toggle-sign-up-btn">sign up</button>';
-        loginModal.style.display = 'block'; // Show the modal
+        loginModal.style.display = 'block'; 
     });
 
     // Show the sign-up modal when clicking the sign-up button
     signUpMainButton.addEventListener('click', function() {
-        modalTitle.textContent = 'sign up'; // Set the title to "Sign Up"
-        submitButton.textContent = 'sign up'; // Set the button text to "Sign Up"
-        emailField.style.display = 'block'; // Show the email field in sign-up mode
+        modalTitle.textContent = 'sign up'; 
+        submitButton.textContent = 'sign up'; 
+        emailField.style.display = 'block'; 
         toggleFormText.innerHTML = 'already have an account? <button id="toggle-sign-up-btn">login</button>';
-        loginModal.style.display = 'block'; // Show the modal
+        loginModal.style.display = 'block';
     });
 
     // Close modal event
@@ -674,14 +669,14 @@ window.onload = function() {
     document.addEventListener('click', function(event) {
         if (event.target && event.target.id === 'toggle-sign-up-btn') {
             if (submitButton.textContent === 'login') {
-                modalTitle.textContent = 'sign up'; // Change to sign-up
-                submitButton.textContent = 'sign up'; // Change button text
-                emailField.style.display = 'block'; // Show email field
+                modalTitle.textContent = 'sign up';
+                submitButton.textContent = 'sign up'; 
+                emailField.style.display = 'block'; 
                 toggleFormText.innerHTML = 'already have an account? <button id="toggle-sign-up-btn">login</button>';
             } else {
-                modalTitle.textContent = 'login'; // Change to login
-                submitButton.textContent = 'login'; // Change button text
-                emailField.style.display = 'none'; // Hide email field
+                modalTitle.textContent = 'login'; 
+                submitButton.textContent = 'login';
+                emailField.style.display = 'none'; 
                 toggleFormText.innerHTML = 'don\'t have an account? <button id="toggle-sign-up-btn">sign up</button>';
             }
         }
@@ -693,7 +688,7 @@ window.onload = function() {
     
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        const email = document.getElementById('email').value; // Optional email field
+        const email = document.getElementById('email').value; 
     
         if (submitButton.textContent === 'login') {
             // Login logic
