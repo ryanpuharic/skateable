@@ -10,7 +10,7 @@ const BASE_URL = ENV === 'prod'
 
 
 let defaultMapOptions = {
-    center: [40.2137, -74.3001], 
+    center: [40.7128, -74.0060], 
     zoom: 5
 };
 
