@@ -308,7 +308,12 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-    #controls-container {
+
+    #search-container {
+        width: 60%;
+    }
+
+    #controls-container, #map-key {
         max-width: 90vw; 
         max-height: 40vh; 
         overflow-y: auto; 
@@ -316,11 +321,11 @@ input:checked + .slider:before {
         font-size: 14px; 
     }
 
-    #controls-container * {
+    #controls-container, #map-key * {
         font-size: 0.9em; 
     }
 
-    #controls-container h1 {
+    #controls-container, #map-key h1 {
         font-size: 1.3em; 
         white-space: nowrap;
         overflow: hidden;
@@ -344,7 +349,7 @@ input:checked + .slider:before {
     }
 
     /* Textarea adjustments for mobile */
-    #controls-container textarea {
+    #controls-container, #map-key textarea {
         width: 90%; 
     }
 
