@@ -111,6 +111,7 @@ html, body {
     height: 100%;
     background: rgba(0, 0, 0, 0.5); 
     z-index: 1000; 
+    padding: 5px;
 }
 
 /* Content styling */
@@ -414,19 +415,143 @@ input:checked + .slider:before {
 }
 
 @media (max-width: 600px) {
-    #search-container{
+    #search-container {
         width: 50%;
+        padding: 5px;
     }
 
     #controls-container,
     #map-key,
     #user-controls {
-        -webkit-overflow-scrolling: touch; /* Enable smooth scrolling */
-        touch-action: manipulation; /* Improve touch responsiveness */
-        overscroll-behavior: contain; /* Prevent bleed-through */
+        margin: 0;
+        padding: 3px;
+        gap: 1px;
+        line-height: 1.1;
+        box-sizing: border-box;
     }
 
-    /* Add these rules to ensure clickable elements remain interactive */
+    #controls-container {
+        max-width: 70vw;
+        max-height: 20vh;
+    }
+
+    #map-key {
+        max-width: 70vw;
+        max-height: 20vh;
+    }
+
+    #user-controls {
+        max-width: 30vw;
+        max-height: 20vh;
+    }
+    
+    #controls-container *,
+    #map-key *,
+    #user-controls * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        line-height: 1.1;
+    }
+
+    #controls-container {
+        font-size: 8px;
+    }
+
+    #map-key {
+        font-size: 7px;
+    }
+
+    #user-controls {
+        font-size: 7px;
+    }
+
+    #controls-container h1,
+    #map-key h1 {
+        font-size: 9px;
+        padding: 1px 0;
+        margin: 0;
+    }
+
+    select, button, textarea {
+        font-size: 7px !important;
+        padding: 2px 3px !important;
+        margin: 1px 0 !important;
+        min-height: 18px;
+    }
+
+    button {
+        padding: 2px 4px !important;
+        margin: 1px 0 !important;
+    }
+
+    #route-message {
+        min-height: 20px;
+        padding: 1px !important;
+    }
+
+    #login-section,
+    #buttons {
+        gap: 1px;
+        padding: 0;
+    }
+
+    .key-line {
+        padding: 0.5px 0 !important;
+    }
+
+    .sub {
+        font-size: 6px;
+        margin-top: 1px !important;
+    }
+
+    #mode-toggle-container,
+    .row {
+        gap: 2px;
+        padding: 0;
+    }
+
+    .modal-content, .info-modal-content {
+        width: 90%;
+        padding: 15px;
+    }
+
+    #controls-container h1,
+    #map-key h1,
+    button {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .subhead{
+        font-size: 7px; 
+    }
+
+    #user-controls select {
+        font-size: 7px; 
+        padding: 1px 2px; 
+        height: 10px; 
+        line-height: 1.1; 
+        margin: 1px 0; 
+        box-sizing: border-box; 
+        border-radius: 2px; 
+        border: 1px solid #ccc; 
+    }
+
+    #user-controls label {
+        font-size: 7px; 
+        margin: 1px 0; 
+    }
+
+    #mode-toggle-container {
+        margin: 1px 0; 
+        padding: 0; 
+    }
+}
+
+/*
+@media (max-width: 600px) {
     #controls-container *,
     #map-key *,
     #user-controls * {
@@ -436,9 +561,9 @@ input:checked + .slider:before {
 
     #controls-container,
     #map-key {
-        max-width: 70vw;
+        max-width: 30vw;
         max-height: 20vh;
-        overflow-y: auto; 
+        overflow: hidden; 
         font-size: 14px;
         display: flex;
         flex-direction: column;
@@ -447,7 +572,7 @@ input:checked + .slider:before {
     #user-controls{
         max-width: 30vw;
         max-height: 20vh;
-        overflow-y: auto; 
+        overflow: hidden; 
         font-size: 14px;
         display: flex;
         flex-direction: column;
@@ -487,7 +612,7 @@ input:checked + .slider:before {
         font-size: 0.9em; 
     }
 
-    /* Buttons specifically */
+
     #login-section button,
     #user-controls button {
         font-size: 0.85em;
@@ -495,7 +620,7 @@ input:checked + .slider:before {
         margin: 3px 0; 
     }
 
-    /* Textarea adjustments for mobile */
+
     #controls-container textarea {
         width: 90%; 
     }
@@ -503,5 +628,8 @@ input:checked + .slider:before {
     .modal-content, .info-modal-content {
         width: 90%; 
     }
-}
+}*/
+
+
+
 
