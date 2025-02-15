@@ -321,11 +321,25 @@ input:checked + .slider:before {
         font-size: 14px; 
     }
 
-    #controls-container, #map-key * {
+    #controls-container {
+        position: fixed; 
+        bottom: 5%;
+        left: 5%; 
+        z-index: 1000;
+    }
+
+    #controls-container {
+        position: fixed; 
+        bottom: 5%;
+        right: 5%; 
+        z-index: 1000;
+    }
+
+    #controls-container *, #map-key * {
         font-size: 0.9em; 
     }
 
-    #controls-container, #map-key h1 {
+    #controls-container h1, #map-key h1 {
         font-size: 1.3em; 
         white-space: nowrap;
         overflow: hidden;
@@ -349,7 +363,7 @@ input:checked + .slider:before {
     }
 
     /* Textarea adjustments for mobile */
-    #controls-container, #map-key textarea {
+    #controls-container textarea {
         width: 90%; 
     }
 
