@@ -23,7 +23,7 @@ html, body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
-    width: 60%;
+    width: 30%;
     max-width: 90%;
 }
 
@@ -297,6 +297,14 @@ input:checked + .slider:before {
     max-height: 80vh;
     max-width: 35vh;
     text-align: left; 
+}
+
+#map-key h1 {
+    color: darkgreen;
+    margin: 0;  
+    padding: 0;  
+    flex-grow: 1;   
+    padding-bottom: 0;   
 }
 
 @media (max-width: 600px) {
