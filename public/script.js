@@ -22,6 +22,7 @@ let map = L.map('map', {
     inertia: true,        
     inertiaDeceleration: 2000, 
     worldCopyJump: false,  
+    attributionControl: false,
     maxBounds: [
         [85, -180],       // Limit map bounds to prevent moving to unintended areas
         [-85, 180]
