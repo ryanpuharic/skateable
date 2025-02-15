@@ -67,7 +67,6 @@ app.post('/api/signup', async (req, res) => {
     const salt = await bcrypt.genSalt(10); 
     const hashedPassword = await bcrypt.hash(password, salt);
 
-    // Create new user
     const newUser = new User({ email, username, password: hashedPassword });
     await newUser.save();
 
