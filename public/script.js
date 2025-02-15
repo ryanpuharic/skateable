@@ -17,9 +17,10 @@ let defaultMapOptions = {
 let loggedInUser = '';
 let currentMode = 'view';  // Default mode
 let map = L.map('map', {
-    maxZoom: 18,          // Set a maximum zoom level
-    inertia: true,        // Enable inertia
-    inertiaDeceleration: 2000, // Lower deceleration for smoother, slower panning
+    center: defaultMapOptions.center,
+    maxZoom: 18,          
+    inertia: true,        
+    inertiaDeceleration: 2000, 
     worldCopyJump: false,  
     maxBounds: [
         [85, -180],       // Limit map bounds to prevent moving to unintended areas
@@ -515,7 +516,6 @@ const rgbToNameMap = {
     "rgb(0, 100, 0)": "darkgreen",
     "rgb(184, 134, 11)": "darkgoldenrod",
     "rgb(139, 0, 0)": "darkred",
-    // Add more mappings as needed
 };
 
 function rgbToName(rgb) {
