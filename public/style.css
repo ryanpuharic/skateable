@@ -291,7 +291,7 @@ input:checked + .slider:before {
     border: 1px solid #ccc;
     border-radius: 5px;
     z-index: 1000;
-    font-size: 15px;
+    font-size: 14px;
     font-family: 'Oswald', sans-serif;
     word-wrap: break-word; 
     overflow-wrap: break-word;
@@ -331,6 +331,11 @@ input:checked + .slider:before {
     padding-bottom: 20px;
 }
 
+.row h1{
+    margin-top: 0px;
+    margin-left: 110px;
+}
+
 #h4 {
     margin: 0; 
     padding-top: 0;
@@ -348,10 +353,12 @@ input:checked + .slider:before {
 }
 
 .head{
-    margin: 0; 
+    margin: 0;
+    margin-bottom:4px; 
     padding: 0;
     font-size:large;
     font-weight: bolder;
+    text-align: center;
 }
 
 .subhead{
@@ -420,6 +427,11 @@ input:checked + .slider:before {
         padding: 5px;
     }
 
+    #search-button {
+        padding: 8px 12px;
+        font-size: 5px;
+    }
+
     #controls-container,
     #map-key,
     #user-controls {
@@ -444,7 +456,7 @@ input:checked + .slider:before {
         max-width: 30vw;
         max-height: 20vh;
     }
-    
+
     #controls-container *,
     #map-key *,
     #user-controls * {
@@ -475,13 +487,13 @@ input:checked + .slider:before {
 
     select, button, textarea {
         font-size: 7px !important;
-        padding: 2px 3px !important;
+        padding: 2px 4px !important;
         margin: 1px 0 !important;
         min-height: 18px;
     }
 
     button {
-        padding: 2px 4px !important;
+        padding: 2px 8px !important;
         margin: 1px 0 !important;
     }
 

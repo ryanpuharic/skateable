@@ -11,7 +11,7 @@ const BASE_URL = ENV === 'prod'
 
 let defaultMapOptions = {
     center: [40.7128, -74.0060], 
-    zoom: 5
+    zoom: 7
 };
 
 let loggedInUser = '';
@@ -28,6 +28,9 @@ let map = L.map('map', {
         [-85, 180]
     ],
 });
+
+map.setView(defaultMapOptions.center, defaultMapOptions.zoom);
+
 
 // Function to fetch the Mapbox API key from the server
 async function fetchApiKey() {
@@ -90,43 +93,6 @@ terrainToggle.addEventListener('change', () => {
         toggleText.innerText = 'terrain off';
     }
 });
-
-// Real-time location tracking
-let userLocationCircle;
-
-// Function to update user location
-function updateUserLocation(position) {
-    const { latitude, longitude } = position.coords;
-
-    if (!userLocationCircle) {
-        // Create a blue circle if it doesn't exist
-        userLocationCircle = L.circle([latitude, longitude], {
-            color: 'blue',
-            fillColor: '#0000FF',
-            fillOpacity: 0.5,
-            radius: 50,
-        }).addTo(map);
-        map.setView([latitude, longitude], 10); 
-    } else {
-        // Update the circle's position
-        userLocationCircle.setLatLng([latitude, longitude]);
-    }
-}
-
-// Function to handle location errors
-function handleLocationError(error) {
-    console.error('Error getting location:', error.message);
-}
-
-// Watch the user's position and update in real-time
-if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(updateUserLocation, handleLocationError, {
-        enableHighAccuracy: true,
-        maximumAge: 0,
-    });
-} else {
-    console.error('Geolocation is not supported by this browser.');
-}
 
 // Function to search location using OpenStreetMap's API
 function searchLocation(query) {
